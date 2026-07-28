@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>/brainstorm — a theater-trained idea engine for Claude</title>
+<meta name="description" content="An Agent Skill for Claude that runs a yes-and improv brainstorm toward a business goal, resolves its own objections before you see them, and never hedges.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDEAE1;
+    --paper-dim:#E3DFD3;
+    --ink:#211F1B;
+    --ink-soft:#4A4740;
+    --grease-red:#A23B2E;
+    --backstage-teal:#3C5C55;
+    --rule:#C9C3B4;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Serif 4', Georgia, serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+
+  /* ---- marquee hero ---- */
+  header.hero{
+    padding:72px 0 40px;
+    border-bottom:3px solid var(--ink);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(33,31,27,0.035) 0px, rgba(33,31,27,0.035) 1px, transparent 1px, transparent 3px);
+  }
+  .slate{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    border:1px solid var(--ink-soft);
+    padding:4px 10px;
+    margin-bottom:22px;
+  }
+  .slate .dot{width:7px;height:7px;border-radius:50%;background:var(--grease-red);}
+  h1.marquee{
+    font-family:'Anton', sans-serif;
+    font-size:clamp(3.2rem, 11vw, 6.4rem);
+    line-height:0.92;
+    letter-spacing:0.01em;
+    margin:0 0 18px;
+    text-transform:uppercase;
+  }
+  h1.marquee .slash{color:var(--grease-red);}
+  .tagline{
+    font-size:1.28rem;
+    max-width:620px;
+    color:var(--ink-soft);
+    margin:0 0 30px;
+  }
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px;
+    letter-spacing:0.03em;
+    text-decoration:none;
+    padding:13px 22px;
+    border:2px solid var(--ink);
+    color:var(--ink);
+    display:inline-block;
+    transition:transform .12s ease;
+  }
+  .btn:hover{transform:translate(-2px,-2px);}
+  .btn.primary{background:var(--ink);color:var(--paper);}
+  .btn.primary:hover{background:var(--grease-red);border-color:var(--grease-red);}
+
+  /* ---- sections ---- */
+  section{padding:52px 0;border-bottom:1px solid var(--rule);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--backstage-teal);
+    margin:0 0 12px;
+  }
+  h2{
+    font-family:'Anton', sans-serif;
+    text-transform:uppercase;
+    font-size:2rem;
+    letter-spacing:0.01em;
+    margin:0 0 20px;
+  }
+  p.lead{font-size:1.12rem;max-width:640px;}
+
+  /* ---- install steps as stage directions ---- */
+  ol.directions{list-style:none;margin:0;padding:0;counter-reset:step;}
+  ol.directions li{
+    counter-increment:step;
+    display:grid;
+    grid-template-columns:44px 1fr;
+    gap:16px;
+    padding:16px 0;
+    border-top:1px dashed var(--rule);
+  }
+  ol.directions li:first-child{border-top:none;}
+  ol.directions li::before{
+    content:counter(step);
+    font-family:'Anton', sans-serif;
+    font-size:1.6rem;
+    color:var(--backstage-teal);
+  }
+  ol.directions code{
+    background:var(--ink);
+    color:var(--paper);
+    padding:2px 7px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.9em;
+  }
+
+  /* ---- guardrail margin note ---- */
+  .margin-note{
+    border-left:4px solid var(--grease-red);
+    padding:4px 0 4px 20px;
+    margin:24px 0;
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px;
+    color:var(--ink-soft);
+  }
+  .margin-note strong{color:var(--grease-red);}
+
+  footer{
+    padding:40px 0 70px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  footer a{color:var(--ink);}
+
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="slate"><span class="dot"></span> CREATIVE BRAINSTORMING SKILL</div>
+    <h1 class="marquee">/BRAIN<span class="slash">STORM</span></h1>
+    <p class="tagline">An Agent Skill for Claude, built on theater improv and ADHD. It quickly stacks half a dozen ideas on each other with "Yes, and..." energy: focused, fast, and a little weird, like brainstorming with the most creative friends you know.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="../brainstorm.skill">Download brainstorm.skill</a>
+      <a class="btn" href="#install">Install in 60 seconds</a>
+    </div>
+  </div>
+</header>
+
+<section id="what">
+  <div class="wrap">
+    <p class="eyebrow">What it does</p>
+    <h2>Brainstorm with creative entrepreneurs</h2>
+    <p class="lead">Every session is like a call with the sharpest founders you know, riffing until something buildable falls out. Ideas build on ideas, and the energy stays confident and forward-moving all the way through.</p>
+    <p class="lead">You get 5-6 real ideas each time. Give feedback and it goes deeper, with more control. Every idea is already road-tested to push to the best buildable version of your goal.</p>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <p class="eyebrow">How it does it</p>
+    <h2>We Synthesized ADHD</h2>
+    <p class="lead">Drawing on years of experience as a founder and executive coach, this skill <strong>deconstructs the way entrepreneurs brainstorm:</strong> fast, associative, optimistic, unwilling to stay in one lane. "Yes, and..." keeps every idea building on the last instead of resetting; pulling <strong>concepts from unrelated industries</strong> simulates subconscious free-association, the same way you come up with great ideas in the shower.</p>
+    <p class="lead">Under the hood, Claude is doing its thing, researching and pressure-testing every idea, so what reaches you has already passed the first technical hurdles.</p>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <p class="eyebrow">Setup</p>
+    <h2>Easy as 1, 2, 3</h2>
+    <ol class="directions">
+      <li>Download <code>brainstorm.skill</code> from the button above, or clone this repo and zip the <code>brainstorm/</code> folder yourself.</li>
+      <li>In Claude, open <code>Settings → Capabilities/Features → Skills</code> and upload the file.</li>
+      <li>Toggle the skill on. (This requires Code Execution to be enabled; Claude will tell you if it isn't.)</li>
+    </ol>
+    <p class="lead"><strong>All set!</strong> Type <code class="mono">/brainstorm &lt;your goal&gt;</code> in any chat. (If you don't give it a goal, the Skill will read the conversation and make a guess.)</p>
+    <p class="lead">No intros, no upsells, no hooks to keep you engaged. Just a genius-level creative brainstorming partner that's always in your corner.</p>
+  </div>
+</section>
+
+<section id="fork">
+  <div class="wrap">
+    <p class="eyebrow">Make it yours</p>
+    <h2>Fork it. Recast it. Break it on purpose.</h2>
+    <p class="lead">The <code class="mono">SKILL.md</code> is one file, plain text, no dependencies. Swap the voice, tighten the weirdness parameter, bolt on a red-team subagent if you want more control.</p>
+    <p class="lead">This <code class="mono">SKILL.md</code> is MIT licensed for unlimited use, so you can extend it with references, scripts, templates, and agents of your own. See the README for the full architecture notes, and let's see how far you can push this. Enjoy!</p>
+  </div>
+</section>
+
+<footer>
+  <span>MIT Licensed — do whatever you want with it.</span>
+  <a href="https://github.com/">View source on GitHub →</a>
+</footer>
+
+</body>
+</html>
