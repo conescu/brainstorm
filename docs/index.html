@@ -108,7 +108,7 @@
   ol.directions li{
     counter-increment:step;
     display:grid;
-    grid-template-columns:44px 1fr;
+    grid-template-columns:44px minmax(0, 1fr);
     gap:16px;
     padding:16px 0;
     border-top:1px dashed var(--rule);
@@ -126,6 +126,10 @@
     padding:2px 7px;
     font-family:'JetBrains Mono', monospace;
     font-size:0.9em;
+    white-space:normal;
+    word-break:break-word;
+    box-decoration-break:clone;
+    -webkit-box-decoration-break:clone;
   }
 
   /* ---- guardrail margin note ---- */
