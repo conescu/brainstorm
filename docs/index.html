@@ -104,21 +104,25 @@
   p.lead{font-size:1.12rem;max-width:640px;}
 
   /* ---- install steps as stage directions ---- */
-  ol.directions{list-style:none;margin:0;padding:0;counter-reset:step;}
+  ol.directions{list-style:none;margin:0;padding:0;}
   ol.directions li{
-    counter-increment:step;
-    display:grid;
-    grid-template-columns:44px 1fr;
+    display:flex;
+    align-items:flex-start;
     gap:16px;
     padding:16px 0;
     border-top:1px dashed var(--rule);
   }
   ol.directions li:first-child{border-top:none;}
-  ol.directions li::before{
-    content:counter(step);
+  .step-num{
+    flex:0 0 32px;
     font-family:'Anton', sans-serif;
     font-size:1.6rem;
+    line-height:1.3;
     color:var(--backstage-teal);
+  }
+  .step-body{
+    flex:1 1 auto;
+    min-width:0;
   }
   ol.directions code{
     background:var(--ink);
@@ -126,6 +130,10 @@
     padding:2px 7px;
     font-family:'JetBrains Mono', monospace;
     font-size:0.9em;
+    white-space:normal;
+    word-break:break-word;
+    box-decoration-break:clone;
+    -webkit-box-decoration-break:clone;
   }
 
   /* ---- guardrail margin note ---- */
@@ -191,9 +199,9 @@
     <p class="eyebrow">Setup</p>
     <h2>Easy as 1, 2, 3</h2>
     <ol class="directions">
-      <li>Download <code>brainstorm.skill</code> from the button above, or clone this repo and zip the <code>brainstorm/</code> folder yourself.</li>
-      <li>In Claude, open <code>Settings → Capabilities/Features → Skills</code> and upload the file.</li>
-      <li>Toggle the skill on. (This requires Code Execution to be enabled; Claude will tell you if it isn't.)</li>
+      <li><span class="step-num">1</span><div class="step-body">Download <code>brainstorm.skill</code> from the button above, or clone this repo and zip the <code>brainstorm/</code> folder yourself.</div></li>
+      <li><span class="step-num">2</span><div class="step-body">In Claude, open <code>Settings → Capabilities/Features → Skills</code> and upload the file.</div></li>
+      <li><span class="step-num">3</span><div class="step-body">Toggle the skill on. (This requires Code Execution to be enabled; Claude will tell you if it isn't.)</div></li>
     </ol>
     <p class="lead"><strong>All set!</strong> Type <code class="mono">/brainstorm &lt;your goal&gt;</code> in any chat. (If you don't give it a goal, the Skill will read the conversation and make a guess.)</p>
     <p class="lead">No intros, no upsells, no hooks to keep you engaged. Just a genius-level creative brainstorming partner that's always in your corner.</p>
